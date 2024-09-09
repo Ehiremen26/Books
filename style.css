@@ -1,0 +1,90 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Nuntio-sans", sans-serif;
+  background-color: #ced4da;
+}
+
+.books-header {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+.books-title {
+  color: #0a0a23;
+  font-family: "Nuntio-sans";
+  font-size: 5rem;
+}
+
+.search-bar {
+  margin-top: 1.5rem;
+  border: 2px solid grey;
+  border-radius: 5px;
+  height: 30px;
+  width: 50%;
+  padding: 5px 23px 5px 10px;
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  background-color: #0a0a23;
+  color: #fff;
+  padding: 9.5px;
+}
+
+.btn:hover {
+  background-color: #002ead;
+  transition: 0.7s;
+}
+
+.btn:focus {
+  outline-color: transparent;
+  outline-style: solid;
+  box-shadow: 0 0 0 4px #5a01a7;
+}
+
+.books-tile {
+  margin-top: 9.5rem;
+  margin-left: 5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.books-title-list {
+  list-style: none;
+}
+
+p {
+  margin-top: 1rem;
+  color: #0a0a23;
+  font-size: 1.1rem;
+  line-height: 1;
+  font-family: "Nuntio-sans";
+}
+
+.spinner {
+  margin: 5rem auto;
+  text-align: center;
+}
+
+svg {
+  height: 6rem;
+  width: 6rem;
+  fill: #0a0a23;
+  animation: loading 2s infinite linear;
+}
+
+@keyframes spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
