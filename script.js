@@ -1,28 +1,66 @@
 // const axios = require("axios");
+import {
+  get,
+  createBookObject,
+  removeSpinner,
+  renderSpinner,
+  clear,
+  navigateById,
+} from "./common.js";
 
 // console.log(axios.isCancel("something"));
 const searchButton = document.querySelector(".btn");
 const searchTextField = document.querySelector(".search-bar");
+const parentElement = document.querySelector(".books-tile");
+const spinnerParent = document.querySelector(".spinner-parent");
+const pagePrev = document.querySelector(".page-prev");
+const pageNext = document.querySelector(".page-next");
 
-function Main() {}
+searchButton.addEventListener("click", function () {
+  clear(parentElement);
 
-async function get(url) {
-  // make GET req to the given url
-  try {
-    const data = await axios.get(url);
-    return data.data;
-  } catch (err) {
-    console.log(`${err}`);
-    return null;
-  }
+  renderSpinner(spinnerParent);
+  searchForBooks(searchTextField.value).then((_) => {
+    removeSpinner(spinnerParent);
+  });
+  // clearInput(searchTextField);
+});
+
+pagePrev.addEventListener("click", function () {
+  paginationPrevious();
+});
+
+pageNext.addEventListener("click", function () {
+  paginationNext();
+});
+
+let pageIndex = 1;
+
+async function Main() {
+  // setup
+  displayBooks(pageIndex);
+
+  // listeners
 }
 
-const getBooks = async function () {
-  const url = "https://gutendex.com/books/?page=2";
+async function displayBooks(index) {
+  const url = `https://gutendex.com/books/?page=${index}`;
+  clear(parentElement);
+  renderSpinner(spinnerParent);
+  await getBooks(url);
+  removeSpinner(spinnerParent);
+}
+
+const getBooks = async function (url) {
   const data = await get(url);
 
   const bookLists = processBookData(data);
   render(bookLists);
+};
+
+const searchForBooks = async function (search) {
+  const searchUrl = `https://gutendex.com/books/?search=${search}`;
+  getBooks(searchUrl);
 };
 
 const processBookData = function (data) {
@@ -41,37 +79,20 @@ const processBookData = function (data) {
   return processedBooksResults;
 };
 
-const createBookObject = function (data) {
-  return {
-    id: data.id,
-    title: data.title,
-    authors: processAuthors(data.authors),
-    subjects: data.subjects,
-    bookCover: data.formats["image/jpeg"],
-  };
-};
+// pagination
 
-const searchForBooks = async function (search) {
-  try {
-    const searchData = await axios.get(
-      `https://gutendex.com/books/?search=${search}`
-    );
-    return searchData.data;
-  } catch (err) {
-    console.log(`${err}`);
-    return null;
+function paginationNext() {
+  pageIndex++;
+  displayBooks(pageIndex);
+}
+
+function paginationPrevious() {
+  pageIndex--;
+  if (pageIndex < 1) {
+    pageIndex = 1;
   }
-};
-
-searchButton.addEventListener("click", function () {
-  const h = searchForBooks(searchTextField.value);
-  h.then((data) => {
-    const bookResults = processBookData(data);
-    console.log(bookResults);
-
-    render(bookResults);
-  });
-});
+  displayBooks(pageIndex);
+}
 
 // Configuration
 const itemsPerPage = 16;
@@ -101,20 +122,9 @@ function renderItems(items, page, itemsPerPage) {
 //   return processedSubjects;
 // }
 
-function processAuthors(authors) {
-  let processedAuthors = [];
-  authors.forEach((author) => {
-    processedAuthors.push(author.name);
-  });
-
-  return processedAuthors;
-}
-
 function render(books) {
   if (!books || (Array.isArray(books) && books.length === 0))
     return renderError();
-
-  const parentElement = document.querySelector(".books-tile");
 
   let markupOfBooks = [];
   books.forEach((book) => {
@@ -125,13 +135,29 @@ function render(books) {
 
   clear(parentElement);
   parentElement.insertAdjacentHTML("afterbegin", bookListItems);
+  const divs = document.querySelectorAll(".book-class");
+
+  // Attach the event listener to each div
+  divs.forEach((div) => {
+    div.addEventListener("click", handleDivClick);
+  });
+}
+
+function handleDivClick(event) {
+  // Get the id of the clicked div
+  const divId = event.target.closest(".book-class").id;
+  console.log(`Div with id ${divId} was clicked`);
+  navigateById(divId);
+
+  // You can also perform other actions here based on the clicked div
+  // For example, showing an alert or changing the content
 }
 
 function generateMarkup(book) {
   // const id = window.location.hash.slice(1);
 
   return `
-    <div>
+    <div id="${book.id}" class="book-class">
   <ul class="books-title-list">
     <li class="books-list">
       <img src="${book.bookCover}" alt="Book image"/>
@@ -143,29 +169,12 @@ function generateMarkup(book) {
   `;
 }
 
-function renderSpinner() {
-  const parentElement = document.querySelector(".spinner-parent");
-  const markup = `
-    <div class="spinner">
-      <svg>
-        <use href="img/icons.svg#icon-loader"></use>
-      </svg>
-    </div>
-  `;
-  clear(parentElement);
-  parentElement.insertAdjacentHTML("afterbegin", markup);
-}
-
-function removeSpinner() {
-  const parentElement = document.querySelector(".spinner-parent");
-  clear(parentElement);
-}
-
-function clear(parentElement) {
-  parentElement.innerHTML = "";
-}
+// function clearInput() {
+//   searchTextField.querySelector(".search").value = "";
+// }
 
 Main();
+
 // Render pagination controls
 // function renderPaginationControls(items, itemsPerPage) {
 //   const controls = document.getElementById('pagination-controls');

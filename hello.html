@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+    <script type="module" src="script2.js"></script>
+    <title>Document</title>
+  </head>
+  <body class="body-class">
+    <div class="spinner-parent"></div>
+    <div class="book-info">
+      <div class="book-img">
+        <img src="${book.bookCover}" alt="Book image" />
+      </div>
+      <div class="book-details">
+        <p>${book.title}</p>
+        <p>By: ${book.authors}</p>
+        <p>${book.bookshelves}</p>
+        <p>${book.subjects}</p>
+        <button class="book-btn">${book.downloadEpub}</button>
+      </div>
+    </div>
+    <!-- <button class="go-to-page1">Go to Home page</button> -->
+  </body>
+</html>
