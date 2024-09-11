@@ -30,10 +30,6 @@ function getQueryParams() {
   };
 }
 
-document.querySelector(".go-to-page1").addEventListener("click", function () {
-  window.location.href = "index.html"; // Navigate back to Page 1
-});
-
 // Use the query parameters
 
 function render(book) {
