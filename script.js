@@ -6,6 +6,7 @@ import {
   renderSpinner,
   clear,
   navigateById,
+  pageUpdate,
 } from "./common.js";
 
 // console.log(axios.isCancel("something"));
@@ -15,6 +16,11 @@ const parentElement = document.querySelector(".books-tile");
 const spinnerParent = document.querySelector(".spinner-parent");
 const pagePrev = document.querySelector(".page-prev");
 const pageNext = document.querySelector(".page-next");
+const pagePrevText = document.querySelector(".page-prev-text");
+const pageNextText = document.querySelector(".page-next-text");
+const paginationSection = document.querySelector(".pagination");
+
+let bookAvailable = false;
 
 searchButton.addEventListener("click", function () {
   clear(parentElement);
@@ -38,17 +44,21 @@ let pageIndex = 1;
 
 async function Main() {
   // setup
+
   displayBooks(pageIndex);
 
   // listeners
 }
 
 async function displayBooks(index) {
-  const url = `https://gutendex.com/books/?page=${index}`;
+  // Index is an integer
+  hidePaginationSection();
   clear(parentElement);
   renderSpinner(spinnerParent);
-  await getBooks(url);
+  const pageBookList = await pageUpdate(index);
+  render(pageBookList);
   removeSpinner(spinnerParent);
+  showPaginationSection();
 }
 
 const getBooks = async function (url) {
@@ -61,22 +71,6 @@ const getBooks = async function (url) {
 const searchForBooks = async function (search) {
   const searchUrl = `https://gutendex.com/books/?search=${search}`;
   getBooks(searchUrl);
-};
-
-const processBookData = function (data) {
-  if (data === null) {
-    alert("invalid data");
-    return [];
-  }
-
-  const { results } = data;
-  const processedBooksResults = [];
-
-  results.forEach((data) => {
-    let temp = createBookObject(data);
-    processedBooksResults.push(temp);
-  });
-  return processedBooksResults;
 };
 
 // pagination
@@ -94,23 +88,21 @@ function paginationPrevious() {
   displayBooks(pageIndex);
 }
 
-// Configuration
-const itemsPerPage = 16;
-let currentPage = 1;
+function showPaginationSection() {
+  pageNextText.innerHTML = `Page ${pageIndex + 1}`;
+  pagePrevText.innerHTML = `Page ${pageIndex - 1}`;
 
-// Render items for the current page
-function renderItems(items, page, itemsPerPage) {
-  const container = document.getElementById("items-container");
-  container.innerHTML = ""; // Clear existing content
-
-  const start = (page - 1) * itemsPerPage;
-  const end = Math.min(start + itemsPerPage - 1, items.length);
-
-  for (let i = start; i <= end; i++) {
-    const itemElement = document.createElement("div");
-    itemElement.textContent = items[i].title;
-    container.appendChild(itemElement);
+  if (bookAvailable) {
+    paginationSection.style.visibility = "visible";
   }
+
+  if (pageIndex === 1) {
+    pagePrev.style.visibility = "hidden";
+  }
+}
+
+function hidePaginationSection() {
+  paginationSection.style.visibility = "hidden";
 }
 
 // function processSubjects(subjects) {
@@ -123,8 +115,12 @@ function renderItems(items, page, itemsPerPage) {
 // }
 
 function render(books) {
-  if (!books || (Array.isArray(books) && books.length === 0))
+  if (!books || (Array.isArray(books) && books.length === 0)) {
+    bookAvailable = false;
     return renderError();
+  }
+
+  bookAvailable = true;
 
   let markupOfBooks = [];
   books.forEach((book) => {
