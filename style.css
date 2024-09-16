@@ -100,25 +100,34 @@ svg {
 }
 
 .book-info {
-  margin: auto;
-  width: 50%;
-  padding: 10px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  display: grid;
-  grid-template-columns: 200px 200px;
-  gap: 20rem;
+.book-div,
+.book-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10rem;
+}
 
-  border: 0.5px solid #ced4da;
-  border-radius: 1px;
-  padding: 0.25rem;
+.book-row {
+  gap: 2rem;
 }
 
 .book-flex {
-  display: grid;
-  grid-template-columns: 200px 200px;
-  justify-content: center;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px; /* Adjust the max-width as needed */
+  margin-bottom: 20px; /* Space between content and button */
+  gap: 1.5rem;
+}
+
+.book-first-column {
+  width: 100px;
 }
 
 .book-description {
@@ -140,17 +149,32 @@ svg {
   padding-right: 2rem; */
 }
 
-.book-btn {
+.book-download-class {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+.book-download-btn {
   display: block;
-  width: 100%;
+  width: 150%;
   border: none;
-  border-radius: 10px;
+  /* border-radius: 10px; */
 
   cursor: pointer;
   text-align: center;
   background-color: #0a0a23;
   padding: 14px 28px;
-  margin-top: 8rem;
+  margin-top: 5rem;
+}
+
+.book-download-btn:hover {
+  background-color: #002ead;
+  transition: 0.2s;
+  outline-color: transparent;
+  outline-style: inset;
+  box-shadow: 0 0 0 4px #5a01a7;
 }
 
 .btn-link {
@@ -196,10 +220,6 @@ svg {
 .page-next-text:hover {
   background-color: #002ead;
   transition: 0.7s;
-}
-
-.page-prev-text:hover,
-.page-next-text:hover {
   outline-color: transparent;
   outline-style: solid;
   box-shadow: 0 0 0 4px #5a01a7;

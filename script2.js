@@ -43,35 +43,53 @@ function render(book) {
 
 function generateMarkup(book) {
   // const id = window.location.hash.slice(1);
+  console.log(book.authors);
+  console.log(book.bookshelves);
 
   return `
     <div class="book-info">
-      <div class="book-img">
+    <div class="book-div">
+    <div class="book-img">
         <img src="${book.bookCover}" alt="Book image" />
       </div>
+
+
       <div class="book-flex">
-      <div class="book-description">
-      <p>Title</p>
-      <p>Author</p>
-      <p>Genre</p>
-      <p>Subjects</p>
+
+      <div class="book-row">
+      <div class="book-first-column"><p>Title</p></div>
+      <div><p>${book.title}</p></div>
       </div>
-      <div class="book-details">
-        <p>${book.title}</p>
-        <p>${book.authors}</p>
-        <p>${book.bookshelves}</p>
-         <p> 
-          <ul>
-            ${book.subjects.map((subject) => `<li>${subject}</li>`).join("")}
-          </ul>
-        </p>
+      <div class="book-row">
+      <div class="book-first-column"><span>Authors</span></div>
+      <div><p>  ${book.authors
+        .map((author) => `<span>${author}</span>`)
+        .join("")}</p></div>
       </div>
+      <div class="book-row">
+      <div class="book-first-column"><p>Genre</p></div>
+      <div><p>${book.bookshelves}</p></div>
       </div>
+
+      <div class="book-row">
+      <div class="book-first-column"><p>Subjects</p></div>
       <div>
+          
+            ${book.subjects.map((subject) => `<div>${subject}</div>`).join("")}
+          
+        </div>
+      </div>
+        
+      </div>
+
+      </div>
       
-      <button class="book-btn">
-        <a href="${book.downloadEpub}" class="btn-link">Download Epub</a>
-        </button></div>
+      
+      <div class="book-download-class">
+      <button class="book-download-btn">
+        <a href="${book.downloadEpub}" class="btn-link">Download EPUB</a>
+        </button>
+        </div>
     </div>
   `;
 }
