@@ -14,7 +14,7 @@ export function createBookObject(data) {
     id: data.id,
     title: data.title,
     authors: processAuthors(data.authors),
-    subjects: data.subject,
+    subjects: data.subjects,
     bookCover: data.formats["image/jpeg"],
     downloadEpub: data.formats["application/epub+zip"],
     bookshelves: processBookShelves(data.bookshelves),
@@ -74,32 +74,43 @@ export function navigateById(id) {
 
 let booksPerPage = 20;
 
-export async function pageUpdate(pageNo) {
+export async function pageUpdate(pageNo, searchMode, searchValue) {
   let temp = pageNo * booksPerPage;
   const pageAPI = Math.floor(temp / 32) + 1;
   const startPage = ((pageNo - 1) * booksPerPage) % 32;
   const endPage = (temp - 1) % 32;
   let bookList;
+  let maxPages;
+
+  let prefixURL = "https://gutendex.com/books/?";
+
+  if (searchMode) {
+    prefixURL += `search=${searchValue}&`;
+  }
 
   console.log(pageAPI, startPage, endPage);
 
   if (startPage < endPage) {
-    const url = `https://gutendex.com/books/?page=${pageAPI}`;
+    const url = `${prefixURL}page=${pageAPI}`;
     console.log(url);
 
     const data = await get(url);
+    maxPages = Math.ceil(data.count / booksPerPage);
+
     bookList = processBookData(data, startPage, endPage);
   } else {
-    const url1 = `https://gutendex.com/books/?page=${pageAPI - 1}`;
-    const url2 = `https://gutendex.com/books/?page=${pageAPI}`;
+    const url1 = `${prefixURL}page=${pageAPI - 1}`;
+    const url2 = `${prefixURL}page=${pageAPI}`;
     const data1 = await get(url1);
     const data2 = await get(url2);
 
-    console.log(url1);
-    console.log(url2);
+    // maxPages = Math.ceil(data.count / booksPerPage);
+
     bookList = processBookData2(data1, data2, startPage, endPage);
   }
-  return bookList;
+  console.log(maxPages);
+
+  return [bookList, maxPages];
 }
 
 const processBookData2 = function (data1, data2, start, end) {
@@ -114,7 +125,7 @@ const processBookData2 = function (data1, data2, start, end) {
     let temp = createBookObject(results1[i]);
     processedBooksResults.push(temp);
   }
-
+  end = Math.min(end, results2.length - 1);
   for (let i = 0; i <= end; i++) {
     let temp = createBookObject(results2[i]);
     processedBooksResults.push(temp);
@@ -131,6 +142,7 @@ const processBookData = function (data, start, end) {
 
   const { results } = data;
   const processedBooksResults = [];
+  end = Math.min(end, results.length - 1);
   for (let i = start; i <= end; i++) {
     let temp = createBookObject(results[i]);
     processedBooksResults.push(temp);

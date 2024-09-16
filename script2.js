@@ -49,15 +49,29 @@ function generateMarkup(book) {
       <div class="book-img">
         <img src="${book.bookCover}" alt="Book image" />
       </div>
+      <div class="book-flex">
+      <div class="book-description">
+      <p>Title</p>
+      <p>Author</p>
+      <p>Genre</p>
+      <p>Subjects</p>
+      </div>
       <div class="book-details">
         <p>${book.title}</p>
-        <p>By: ${book.authors}</p>
+        <p>${book.authors}</p>
         <p>${book.bookshelves}</p>
-        <p>${book.subjects}</p>
-        <button class="book-btn">
-        <a href="${book.downloadEpub}" class="btn-link">Download Epub</a>
-        </button>
+         <p> 
+          <ul>
+            ${book.subjects.map((subject) => `<li>${subject}</li>`).join("")}
+          </ul>
+        </p>
       </div>
+      </div>
+      <div>
+      
+      <button class="book-btn">
+        <a href="${book.downloadEpub}" class="btn-link">Download Epub</a>
+        </button></div>
     </div>
   `;
 }

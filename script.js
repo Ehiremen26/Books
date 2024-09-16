@@ -20,16 +20,15 @@ const pagePrevText = document.querySelector(".page-prev-text");
 const pageNextText = document.querySelector(".page-next-text");
 const paginationSection = document.querySelector(".pagination");
 
+let maxPages = 1;
 let bookAvailable = false;
+let searchMode = false;
 
 searchButton.addEventListener("click", function () {
-  clear(parentElement);
+  searchMode = true;
+  pageIndex = 1;
 
-  renderSpinner(spinnerParent);
-  searchForBooks(searchTextField.value).then((_) => {
-    removeSpinner(spinnerParent);
-  });
-  // clearInput(searchTextField);
+  displayBooks(pageIndex);
 });
 
 pagePrev.addEventListener("click", function () {
@@ -55,8 +54,13 @@ async function displayBooks(index) {
   hidePaginationSection();
   clear(parentElement);
   renderSpinner(spinnerParent);
-  const pageBookList = await pageUpdate(index);
-  render(pageBookList);
+  const pageBookList = await pageUpdate(
+    index,
+    searchMode,
+    searchTextField.value
+  );
+  maxPages = pageBookList[1];
+  render(pageBookList[0]);
   removeSpinner(spinnerParent);
   showPaginationSection();
 }
@@ -94,10 +98,20 @@ function showPaginationSection() {
 
   if (bookAvailable) {
     paginationSection.style.visibility = "visible";
+  } else {
+    paginationSection.style.visibility = "hidden";
   }
 
   if (pageIndex === 1) {
     pagePrev.style.visibility = "hidden";
+  } else {
+    pagePrev.style.visibility = "visible";
+  }
+
+  if (pageIndex >= maxPages) {
+    pageNext.style.visibility = "hidden";
+  } else {
+    pageNext.style.visibility = "visible";
   }
 }
 
@@ -157,12 +171,36 @@ function generateMarkup(book) {
   <ul class="books-title-list">
     <li class="books-list">
       <img src="${book.bookCover}" alt="Book image"/>
-      <p>${book.title}</p>
-      <p>By: ${book.authors}</p>
+      
     </li>
   </ul>
 </div>
   `;
+}
+
+function renderError() {
+  console.log(7777);
+  let markup;
+
+  if (searchMode) {
+    markup = `
+    <div class="error">
+
+    <p class="error-message">Book Search Not Found 🔍</p>
+
+</div>
+  `;
+  } else {
+    markup = `
+    <div class="error">
+
+    <p class="error-message">An Error Occurred 💥💥💥</p>
+
+</div>
+  `;
+  }
+  clear(parentElement);
+  parentElement.insertAdjacentHTML("afterbegin", markup);
 }
 
 // function clearInput() {
