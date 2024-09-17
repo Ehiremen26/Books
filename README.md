@@ -1,8 +1,8 @@
-﻿## Books for Everyone
+﻿# Books for Everyone
 
 A book library where you can find your favourite books to download and read on the Go!
 
-# Prerequistes
+## Prerequistes
 
 * npm
   ```sh
@@ -13,7 +13,7 @@ A book library where you can find your favourite books to download and read on t
   
   Axios
 
-# Installations
+## Installations
 
   ```sh
 Npm install axios
@@ -23,7 +23,7 @@ Npm install axios
 await.get()
 ```
 
-# Usage
+## Usage
 
 The book library allows you to search for book using the author’s name of book title.
 
@@ -38,10 +38,10 @@ Click on a book to opens the book details and download. Using a second html file
 
 ![Screenshot (12)](https://github.com/user-attachments/assets/a1b12e5c-3e78-4596-bf6e-11a80cd92873)
 
-# Contributing
+## Contributing
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement". Don't forget to give the project a star! Thanks again!
 
-# Document API references
+## Document API references
 
 [https://example.com]([https://example.com](https://gutendex.com/books/)
