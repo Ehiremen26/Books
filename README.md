@@ -44,4 +44,4 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 ## Document API references
 
-[https://example.com]([https://example.com](https://gutendex.com/books/)
+[Project Gutenberg](https://gutendex.com/books/)
