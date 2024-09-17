@@ -23,6 +23,7 @@ const paginationSection = document.querySelector(".pagination");
 let maxPages = 1;
 let bookAvailable = false;
 let searchMode = false;
+let pageIndex = 1;
 
 searchButton.addEventListener("click", function () {
   searchMode = true;
@@ -38,8 +39,6 @@ pagePrev.addEventListener("click", function () {
 pageNext.addEventListener("click", function () {
   paginationNext();
 });
-
-let pageIndex = 1;
 
 async function Main() {
   // setup

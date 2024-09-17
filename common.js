@@ -30,14 +30,6 @@ function processAuthors(authors) {
   return processedAuthors;
 }
 
-// function processSubjects(subject) {
-//   let processedSubjects = [];
-//   const booksubject = subject.splice(2, 0, undefined);
-//   processedSubjects.push(booksubject);
-
-//   return processedSubjects;
-// }
-
 function processBookShelves(shelves) {
   const processBookShelves = [];
   shelves.forEach((shelf) => {
