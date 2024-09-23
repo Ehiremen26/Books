@@ -2,17 +2,18 @@
 
 A book library where you can find your favourite books to download and read on the Go!
 
+## Packages used
+  
+  Axios - for making request from the API
+
 ## Prerequistes
 
-* npm
-  
-  ```sh
-  npm install
+* npm for running the project
+
+    ```sh
+  npm run
   ```
 
-- packages
-  
-  Axios
 
 ## Installations
 
@@ -26,7 +27,7 @@ await.get()
 
 ## Usage
 
-The book library allows you to search for book using the author’s name of book title.
+The book library allows you to search for book using the author’s name or book title.
 
 ![Screenshot (7)](https://github.com/user-attachments/assets/1e4d28bd-03e4-4696-86ac-569a7dca5471)
 
