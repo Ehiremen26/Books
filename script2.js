@@ -48,6 +48,7 @@ function generateMarkup(book) {
 
   return `
     <div class="book-info">
+
     <div class="book-div">
     <div class="book-img">
         <img src="${book.bookCover}" alt="Book image" />
@@ -57,25 +58,30 @@ function generateMarkup(book) {
       <div class="book-flex">
 
       <div class="book-row">
-      <div class="book-first-column"><p>Title</p></div>
-      <div><p>${book.title}</p></div>
+      <div class="book-first-column"><p class="book-title-text">Title</p></div>
+      <div><p class="book-title-text">${book.title}</p></div>
       </div>
       <div class="book-row">
-      <div class="book-first-column"><span>Authors</span></div>
-      <div><p>  ${book.authors
+      <div class="book-first-column"><p class="book-title-text">Authors</p></div>
+      <div><p class="book-title-text">  ${book.authors
         .map((author) => `<span>${author}</span>`)
         .join("")}</p></div>
       </div>
       <div class="book-row">
-      <div class="book-first-column"><p>Genre</p></div>
-      <div><p>${book.bookshelves}</p></div>
+      <div class="book-first-column"><p class="book-title-text">Genre</p></div>
+      <div><p class="book-title-text">${book.bookshelves}</p></div>
       </div>
 
       <div class="book-row">
-      <div class="book-first-column"><p>Subjects</p></div>
+      <div class="book-first-column"><p class="book-title-text">Subjects</p></div>
       <div>
           
-            ${book.subjects.map((subject) => `<div>${subject}</div>`).join("")}
+            ${book.subjects
+              .map(
+                (subject) =>
+                  `<div ><p class="book-title-text">${subject}</p></div>`
+              )
+              .join("")}
           
         </div>
       </div>

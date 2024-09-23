@@ -121,7 +121,7 @@ svg {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 800px; /* Adjust the max-width as needed */
+  max-width: auto; /* Adjust the max-width as needed */
   margin-bottom: 20px; /* Space between content and button */
   gap: 1.5rem;
 }
@@ -240,4 +240,114 @@ svg {
 
 .error-message {
   font-size: 5.5rem;
+}
+
+@media (max-width: 400px) {
+  body {
+    margin: 0;
+    height: 100vh;
+    width: auto;
+  }
+
+  .book-div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+
+  .book-title-text {
+    font-size: 2px;
+    padding-left: 20px;
+  }
+
+  .book-flex {
+    gap: 0.2rem;
+  }
+
+  .book-download-class,
+  .book-download-btn {
+    margin-bottom: 7rem;
+    padding-right: 25px;
+    width: 200px;
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    margin: 0;
+    font-family: "Nuntio-sans", sans-serif;
+    background-color: #ced4da;
+    height: 100vh;
+    width: auto;
+  }
+
+  .books-header {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+    font-size: 3rem;
+  }
+
+  .page-prev-text,
+  .page-next-text {
+    padding: 1rem;
+    font-size: 10px;
+  }
+
+  .book-div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+
+  .book-title-text {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .book-flex {
+    gap: 0.2rem;
+  }
+
+  .book-download-class,
+  .book-download-btn {
+    margin-bottom: 7rem;
+    padding-right: 25px;
+    width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .book-div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+
+  .book-title-text {
+    font-size: 20px;
+    padding: 10px;
+  }
+
+  .book-flex {
+    gap: 0.2rem;
+  }
+
+  .book-download-class,
+  .book-download-btn {
+    margin-bottom: 7rem;
+    padding-right: 25px;
+    width: 400px;
+  }
+
+  .btn-link {
+    font-size: 20px;
+  }
 }
