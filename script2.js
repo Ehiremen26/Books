@@ -12,21 +12,25 @@ const spinnerParent = document.querySelector(".spinner-parent");
 
 function main() {
   renderSpinner(spinnerParent);
-  const queryParams = getQueryParams();
-  if (queryParams.bookId) {
-    getBook(`https://gutendex.com/books/${queryParams.bookId}`).then((_) => {
-      removeSpinner(spinnerParent);
-    });
+
+  const bookSearchResult = bookSearch();
+
+  if (bookSearchResult.bookId) {
+    getBook(`https://gutendex.com/books/${bookSearchResult.bookId}`).then(
+      (_) => {
+        removeSpinner(spinnerParent);
+      }
+    );
   } else {
     parentElement.textContent = "No Book ID provided.";
   }
 }
 // Function to get query parameters
 
-function getQueryParams() {
-  const params = new URLSearchParams(window.location.search);
+function bookSearch() {
+  const bookIds = new URLSearchParams(window.location.search);
   return {
-    bookId: params.get("bookId"),
+    bookId: bookIds.get("bookId"),
   };
 }
 

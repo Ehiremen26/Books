@@ -9,7 +9,6 @@ import {
   pageUpdate,
 } from "./common.js";
 
-// console.log(axios.isCancel("something"));
 const searchButton = document.querySelector(".btn");
 const searchTextField = document.querySelector(".search-bar");
 const parentElement = document.querySelector(".books-tile");
@@ -19,11 +18,47 @@ const pageNext = document.querySelector(".page-next");
 const pagePrevText = document.querySelector(".page-prev-text");
 const pageNextText = document.querySelector(".page-next-text");
 const paginationSection = document.querySelector(".pagination");
+const homePage = document.querySelector(".books-title");
 
 let maxPages = 1;
 let bookAvailable = false;
 let searchMode = false;
 let pageIndex = 1;
+
+async function Main() {
+  // setup
+
+  displayBooks(pageIndex);
+
+  // listeners
+}
+
+async function displayBooks(index) {
+  // Index is an integer
+  hidePaginationSection();
+
+  clear(parentElement);
+
+  renderSpinner(spinnerParent);
+
+  const pageBookList = await pageUpdate(
+    index,
+    searchMode,
+    searchTextField.value
+  );
+
+  maxPages = pageBookList[1];
+
+  render(pageBookList[0]);
+
+  removeSpinner(spinnerParent);
+
+  showPaginationSection();
+}
+
+// homePage.addEventListener("click", function () {
+//   get(url);
+// });
 
 searchButton.addEventListener("click", function () {
   searchMode = true;
@@ -39,42 +74,6 @@ pagePrev.addEventListener("click", function () {
 pageNext.addEventListener("click", function () {
   paginationNext();
 });
-
-async function Main() {
-  // setup
-
-  displayBooks(pageIndex);
-
-  // listeners
-}
-
-async function displayBooks(index) {
-  // Index is an integer
-  hidePaginationSection();
-  clear(parentElement);
-  renderSpinner(spinnerParent);
-  const pageBookList = await pageUpdate(
-    index,
-    searchMode,
-    searchTextField.value
-  );
-  maxPages = pageBookList[1];
-  render(pageBookList[0]);
-  removeSpinner(spinnerParent);
-  showPaginationSection();
-}
-
-const getBooks = async function (url) {
-  const data = await get(url);
-
-  const bookLists = processBookData(data);
-  render(bookLists);
-};
-
-const searchForBooks = async function (search) {
-  const searchUrl = `https://gutendex.com/books/?search=${search}`;
-  getBooks(searchUrl);
-};
 
 // pagination
 
@@ -118,15 +117,6 @@ function hidePaginationSection() {
   paginationSection.style.visibility = "hidden";
 }
 
-// function processSubjects(subjects) {
-//   let processedSubjects = [];
-//   subjects.forEach((subject) => {
-//     processedSubjects.push(subjects).join("");
-//   });
-
-//   return processedSubjects;
-// }
-
 function render(books) {
   if (!books || (Array.isArray(books) && books.length === 0)) {
     bookAvailable = false;
@@ -136,14 +126,18 @@ function render(books) {
   bookAvailable = true;
 
   let markupOfBooks = [];
+
   books.forEach((book) => {
     const markup = generateMarkup(book);
     markupOfBooks.push(markup);
   });
+
   const bookListItems = markupOfBooks.join("");
 
   clear(parentElement);
+
   parentElement.insertAdjacentHTML("afterbegin", bookListItems);
+
   const divs = document.querySelectorAll(".book-class");
 
   // Attach the event listener to each div
@@ -157,9 +151,6 @@ function handleDivClick(event) {
   const divId = event.target.closest(".book-class").id;
   console.log(`Div with id ${divId} was clicked`);
   navigateById(divId);
-
-  // You can also perform other actions here based on the clicked div
-  // For example, showing an alert or changing the content
 }
 
 function generateMarkup(book) {
@@ -198,63 +189,9 @@ function renderError() {
 </div>
   `;
   }
+
   clear(parentElement);
   parentElement.insertAdjacentHTML("afterbegin", markup);
 }
 
-// function clearInput() {
-//   searchTextField.querySelector(".search").value = "";
-// }
-
 Main();
-
-// Render pagination controls
-// function renderPaginationControls(items, itemsPerPage) {
-//   const controls = document.getElementById('pagination-controls');
-//   controls.innerHTML = ''; // Clear existing content
-
-//   const totalPages = Math.ceil(items.length / itemsPerPage);
-
-//   // Previous button
-//   if (currentPage > 1) {
-//       const prevButton = document.createElement('button');
-//       prevButton.textContent = 'Previous';
-//       prevButton.addEventListener('click', () => {
-//           currentPage--;
-//           updatePage();
-//       });
-//       controls.appendChild(prevButton);
-//   }
-
-//   // Page numbers
-//   for (let i = 1; i <= totalPages; i++) {
-//       const pageButton = document.createElement('button');
-//       pageButton.textContent = i;
-//       pageButton.disabled = (i === currentPage);
-//       pageButton.addEventListener('click', () => {
-//           currentPage = i;
-//           updatePage();
-//       });
-//       controls.appendChild(pageButton);
-//   }
-
-//   // Next button
-//   if (currentPage < totalPages) {
-//       const nextButton = document.createElement('button');
-//       nextButton.textContent = 'Next';
-//       nextButton.addEventListener('click', () => {
-//           currentPage++;
-//           updatePage();
-//       });
-//       controls.appendChild(nextButton);
-//   }
-// }
-
-// // Update page content and controls
-// function updatePage() {
-//   renderItems(items, currentPage, itemsPerPage);
-//   renderPaginationControls(items, itemsPerPage);
-// }
-
-// // Initial render
-// updatePage()

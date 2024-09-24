@@ -68,12 +68,13 @@ let booksPerPage = 20;
 
 export async function pageUpdate(pageNo, searchMode, searchValue) {
   let temp = pageNo * booksPerPage;
+
   const pageAPI = Math.floor(temp / 32) + 1;
   const startPage = ((pageNo - 1) * booksPerPage) % 32;
   const endPage = (temp - 1) % 32;
+
   let bookList;
   let maxPages;
-
   let prefixURL = "https://gutendex.com/books/?";
 
   if (searchMode) {
@@ -110,13 +111,16 @@ const processBookData2 = function (data1, data2, start, end) {
     alert("invalid data");
     return [];
   }
+
   const processedBooksResults = [];
+
   const results1 = data1.results;
   const results2 = data2.results;
   for (let i = start; i < results1.length; i++) {
     let temp = createBookObject(results1[i]);
     processedBooksResults.push(temp);
   }
+
   end = Math.min(end, results2.length - 1);
   for (let i = 0; i <= end; i++) {
     let temp = createBookObject(results2[i]);
